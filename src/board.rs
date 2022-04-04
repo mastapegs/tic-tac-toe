@@ -2,14 +2,8 @@ use std::fmt;
 
 use crate::Square;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Default)]
 pub struct Row(pub Square, pub Square, pub Square);
-
-impl Default for Row {
-    fn default() -> Self {
-        Self(Square::Empty, Square::Empty, Square::Empty)
-    }
-}
 
 impl fmt::Display for Row {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {

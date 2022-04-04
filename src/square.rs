@@ -18,6 +18,12 @@ impl fmt::Display for Square {
     }
 }
 
+impl Default for Square {
+    fn default() -> Self {
+        Self::Empty
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -26,5 +32,6 @@ mod test {
         assert_eq!("X", format!("{}", Square::X));
         assert_eq!("O", format!("{}", Square::O));
         assert_eq!("_", format!("{}", Square::Empty));
+        assert_eq!("_", format!("{}", Square::default()));
     }
 }
