@@ -115,6 +115,8 @@ impl Board {
 
 #[cfg(test)]
 mod tests {
+    use crate::Result;
+
     use super::*;
     #[test]
     fn row_display_trait() {
@@ -174,39 +176,26 @@ mod tests {
     }
 
     #[test]
-    fn test_get_square() {
+    fn test_get_square() -> Result<()> {
         let board = Board {
             row1: Row(Square::Empty, Square::Empty, Square::X),
             row2: Row(Square::Empty, Square::X, Square::O),
             row3: Row(Square::O, Square::Empty, Square::Empty),
         };
 
-        assert_eq!(
-            board.get_square(&"A1".parse::<Position>().unwrap()),
-            &Square::Empty
-        );
+        assert_eq!(board.get_square(&"A1".parse::<Position>()?), &Square::Empty);
+        assert_eq!(board.get_square(&"B3".parse::<Position>()?), &Square::O);
+        assert_eq!(board.get_square(&"B2".parse::<Position>()?), &Square::X);
+        assert_eq!(board.get_square(&"C3".parse::<Position>()?), &Square::Empty);
 
-        assert_eq!(
-            board.get_square(&"B3".parse::<Position>().unwrap()),
-            &Square::O
-        );
-
-        assert_eq!(
-            board.get_square(&"B2".parse::<Position>().unwrap()),
-            &Square::X
-        );
-
-        assert_eq!(
-            board.get_square(&"C3".parse::<Position>().unwrap()),
-            &Square::Empty
-        );
+        Ok(())
     }
 
     #[test]
-    fn test_set_square() {
+    fn test_set_square() -> Result<()> {
         let mut test_board = Board::default();
 
-        test_board.set_square(&"B2".parse::<Position>().unwrap(), Square::X);
+        test_board.set_square(&"B2".parse::<Position>()?, Square::X);
         assert_eq!(
             test_board,
             Board {
@@ -216,7 +205,7 @@ mod tests {
             }
         );
 
-        test_board.set_square(&"C1".parse::<Position>().unwrap(), Square::O);
+        test_board.set_square(&"C1".parse::<Position>()?, Square::O);
         assert_eq!(
             test_board,
             Board {
@@ -226,7 +215,7 @@ mod tests {
             }
         );
 
-        test_board.set_square(&"A3".parse::<Position>().unwrap(), Square::X);
+        test_board.set_square(&"A3".parse::<Position>()?, Square::X);
         assert_eq!(
             test_board,
             Board {
@@ -235,5 +224,7 @@ mod tests {
                 row3: Row(Square::O, Square::Empty, Square::Empty),
             }
         );
+
+        Ok(())
     }
 }
