@@ -25,19 +25,19 @@ impl fmt::Display for Board {
 
 impl Board {
     #[allow(dead_code)]
-    fn get_square(&self, position: &Position) -> &Square {
+    fn get_square(&self, position: &Position) -> Square {
         match position {
-            Position(position::Row::A, position::Column::One) => &self.row1.0,
-            Position(position::Row::A, position::Column::Two) => &self.row1.1,
-            Position(position::Row::A, position::Column::Three) => &self.row1.2,
+            Position(position::Row::A, position::Column::One) => self.row1.0,
+            Position(position::Row::A, position::Column::Two) => self.row1.1,
+            Position(position::Row::A, position::Column::Three) => self.row1.2,
 
-            Position(position::Row::B, position::Column::One) => &self.row2.0,
-            Position(position::Row::B, position::Column::Two) => &self.row2.1,
-            Position(position::Row::B, position::Column::Three) => &self.row2.2,
+            Position(position::Row::B, position::Column::One) => self.row2.0,
+            Position(position::Row::B, position::Column::Two) => self.row2.1,
+            Position(position::Row::B, position::Column::Three) => self.row2.2,
 
-            Position(position::Row::C, position::Column::One) => &self.row3.0,
-            Position(position::Row::C, position::Column::Two) => &self.row3.1,
-            Position(position::Row::C, position::Column::Three) => &self.row3.2,
+            Position(position::Row::C, position::Column::One) => self.row3.0,
+            Position(position::Row::C, position::Column::Two) => self.row3.1,
+            Position(position::Row::C, position::Column::Three) => self.row3.2,
         }
     }
 
@@ -183,10 +183,10 @@ mod tests {
             row3: Row(Square::O, Square::Empty, Square::Empty),
         };
 
-        assert_eq!(board.get_square(&"A1".parse()?), &Square::Empty);
-        assert_eq!(board.get_square(&"B3".parse()?), &Square::O);
-        assert_eq!(board.get_square(&"B2".parse()?), &Square::X);
-        assert_eq!(board.get_square(&"C3".parse()?), &Square::Empty);
+        assert_eq!(board.get_square(&"A1".parse()?), Square::Empty);
+        assert_eq!(board.get_square(&"B3".parse()?), Square::O);
+        assert_eq!(board.get_square(&"B2".parse()?), Square::X);
+        assert_eq!(board.get_square(&"C3".parse()?), Square::Empty);
 
         Ok(())
     }
