@@ -5,13 +5,18 @@ use tic_tac_toe::{Board, Result, Square};
 fn main() -> Result<()> {
     let mut board = Board::default();
 
-    board.set_square(&"B2".parse()?, Square::X);
-    board.set_square(&"A1".parse()?, Square::O);
-    board.set_square(&"C3".parse()?, Square::X);
-    board.set_square(&"C1".parse()?, Square::O);
+    let moves = [
+        ("B2", Square::X),
+        ("A1", Square::O),
+        ("C3", Square::X),
+        ("C1", Square::O),
+        ("B1", Square::X),
+        ("B3", Square::O),
+    ];
 
-    // Throw an Error!!! 😱 😱 😱
-    board.set_square(&"ABC".parse()?, Square::O);
+    for (position, square) in moves {
+        board.set_square(&position.parse()?, square);
+    }
 
     println!("{board}");
 
