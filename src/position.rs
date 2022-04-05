@@ -39,9 +39,6 @@ impl str::FromStr for Column {
     }
 }
 
-/// A1 | A2 | A3
-/// B1 | B2 | B3
-/// C1 | C2 | C3
 #[derive(Debug, PartialEq)]
 pub struct Position(pub Row, pub Column);
 
@@ -55,11 +52,6 @@ impl str::FromStr for Position {
                 (Ok(_), Err(_)) => Err(Error::ColumnPositionError(s.to_owned())),
                 (Err(_), Err(_)) => Err(Error::RowAndColumnPositionError(s.to_owned())),
             }
-            // if let (Ok(row), Ok(column)) = (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
-            //     Ok(Position(row, column))
-            // } else {
-            //     Err(Error::RowAndColumnPositionError(s.to_owned()))
-            // }
         } else {
             Err(Error::InvalidPositionStringLength(s.to_owned()))
         }
