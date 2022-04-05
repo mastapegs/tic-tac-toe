@@ -4,7 +4,7 @@ use std::fmt;
 pub enum Error {
     RowPositionError(String),
     ColumnPositionError(String),
-    CombinedPositionError(String),
+    RowAndColumnPositionError(String),
     InvalidPositionStringLength(String),
 }
 
@@ -12,16 +12,24 @@ impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             Error::RowPositionError(character) => {
-                write!(f, "Invalid Row Char: {}", character)
+                write!(f, "Invalid Row Char. Received: {}", character)
             }
             Error::ColumnPositionError(character) => {
-                write!(f, "Invalid Column Char: {}", character)
+                write!(f, "Invalid Column Char. Recieved: {}", character)
             }
-            Error::CombinedPositionError(character) => {
-                write!(f, "Invalid Characters: {}", character)
+            Error::RowAndColumnPositionError(character) => {
+                write!(
+                    f,
+                    "Both Invalid Row and Invalid Column characters. Received: {}",
+                    character
+                )
             }
             Error::InvalidPositionStringLength(character) => {
-                write!(f, "Need exactly 2 characters, received: {}", character)
+                write!(
+                    f,
+                    "Needs exactly 2 valid position characters, Received: {}",
+                    character
+                )
             }
         }
     }

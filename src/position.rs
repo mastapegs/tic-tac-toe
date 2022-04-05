@@ -49,11 +49,17 @@ impl str::FromStr for Position {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
         if s.len() == 2 {
-            if let (Ok(row), Ok(column)) = (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
-                Ok(Position(row, column))
-            } else {
-                Err(Error::CombinedPositionError(s.to_owned()))
+            match (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
+                (Ok(row), Ok(column)) => Ok(Position(row, column)),
+                (Err(_), Ok(_)) => Err(Error::RowPositionError(s.to_owned())),
+                (Ok(_), Err(_)) => Err(Error::ColumnPositionError(s.to_owned())),
+                (Err(_), Err(_)) => Err(Error::RowAndColumnPositionError(s.to_owned())),
             }
+            // if let (Ok(row), Ok(column)) = (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
+            //     Ok(Position(row, column))
+            // } else {
+            //     Err(Error::RowAndColumnPositionError(s.to_owned()))
+            // }
         } else {
             Err(Error::InvalidPositionStringLength(s.to_owned()))
         }
@@ -117,27 +123,29 @@ mod tests {
     }
 
     #[test]
-    fn parse_position_error() {
-        fn assert_position_combination_error(char: &str) {
-            assert_eq!(
-                char.parse::<Position>(),
-                Err(Error::CombinedPositionError(char.to_owned()))
-            );
-        }
+    fn parse_position_errors() {
+        let mut position = "D1";
+        assert_eq!(
+            position.parse::<Position>(),
+            Err(Error::RowPositionError(position.to_owned()))
+        );
 
-        fn assert_position_length_error(char: &str) {
-            assert_eq!(
-                char.parse::<Position>(),
-                Err(Error::InvalidPositionStringLength(char.to_owned()))
-            );
-        }
+        position = "A4";
+        assert_eq!(
+            position.parse::<Position>(),
+            Err(Error::ColumnPositionError(position.to_owned()))
+        );
 
-        assert_position_combination_error("D1");
-        assert_position_combination_error("A4");
-        assert_position_combination_error("B9");
+        position = "D9";
+        assert_eq!(
+            position.parse::<Position>(),
+            Err(Error::RowAndColumnPositionError(position.to_owned()))
+        );
 
-        assert_position_length_error("ABC");
-        assert_position_length_error("123");
-        assert_position_length_error("Helicopter");
+        position = "ABC";
+        assert_eq!(
+            position.parse::<Position>(),
+            Err(Error::InvalidPositionStringLength(position.to_owned()))
+        );
     }
 }
