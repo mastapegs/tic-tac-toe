@@ -49,9 +49,10 @@ impl str::FromStr for Position {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
         if s.len() == 2 {
-            match (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
-                (Ok(row), Ok(column)) => Ok(Position(row, column)),
-                _ => Err(Error::CombinedPositionError(s.to_owned())),
+            if let (Ok(row), Ok(column)) = (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
+                Ok(Position(row, column))
+            } else {
+                Err(Error::CombinedPositionError(s.to_owned()))
             }
         } else {
             Err(Error::InvalidPositionStringLength(s.to_owned()))
