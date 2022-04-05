@@ -183,10 +183,10 @@ mod tests {
             row3: Row(Square::O, Square::Empty, Square::Empty),
         };
 
-        assert_eq!(board.get_square(&"A1".parse::<Position>()?), &Square::Empty);
-        assert_eq!(board.get_square(&"B3".parse::<Position>()?), &Square::O);
-        assert_eq!(board.get_square(&"B2".parse::<Position>()?), &Square::X);
-        assert_eq!(board.get_square(&"C3".parse::<Position>()?), &Square::Empty);
+        assert_eq!(board.get_square(&"A1".parse()?), &Square::Empty);
+        assert_eq!(board.get_square(&"B3".parse()?), &Square::O);
+        assert_eq!(board.get_square(&"B2".parse()?), &Square::X);
+        assert_eq!(board.get_square(&"C3".parse()?), &Square::Empty);
 
         Ok(())
     }
@@ -195,7 +195,7 @@ mod tests {
     fn test_set_square() -> Result<()> {
         let mut test_board = Board::default();
 
-        test_board.set_square(&"B2".parse::<Position>()?, Square::X);
+        test_board.set_square(&"B2".parse()?, Square::X);
         assert_eq!(
             test_board,
             Board {
@@ -205,7 +205,7 @@ mod tests {
             }
         );
 
-        test_board.set_square(&"C1".parse::<Position>()?, Square::O);
+        test_board.set_square(&"C1".parse()?, Square::O);
         assert_eq!(
             test_board,
             Board {
@@ -215,7 +215,7 @@ mod tests {
             }
         );
 
-        test_board.set_square(&"A3".parse::<Position>()?, Square::X);
+        test_board.set_square(&"A3".parse()?, Square::X);
         assert_eq!(
             test_board,
             Board {
