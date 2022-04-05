@@ -1,6 +1,5 @@
+use crate::{position, Position, Square};
 use std::fmt;
-
-use crate::{Position, Square};
 
 #[derive(Debug, PartialEq, Default)]
 pub struct Row(pub Square, pub Square, pub Square);
@@ -25,8 +24,20 @@ impl fmt::Display for Board {
 }
 
 impl Board {
-    fn get_square(&self, position: &Position) -> Square {
-        todo!()
+    fn get_square(&self, position: &Position) -> &Square {
+        match position {
+            Position(position::Row::A, position::Column::One) => &self.row1.0,
+            Position(position::Row::A, position::Column::Two) => &self.row1.1,
+            Position(position::Row::A, position::Column::Three) => &self.row1.2,
+
+            Position(position::Row::B, position::Column::One) => &self.row2.0,
+            Position(position::Row::B, position::Column::Two) => &self.row2.1,
+            Position(position::Row::B, position::Column::Three) => &self.row2.2,
+
+            Position(position::Row::C, position::Column::One) => &self.row3.0,
+            Position(position::Row::C, position::Column::Two) => &self.row3.1,
+            Position(position::Row::C, position::Column::Three) => &self.row3.2,
+        }
     }
 }
 
@@ -87,6 +98,35 @@ mod tests {
                     row3: Row(Square::O, Square::Empty, Square::Empty),
                 }
             )
+        );
+    }
+
+    #[test]
+    fn test_get_square() {
+        let board = Board {
+            row1: Row(Square::Empty, Square::Empty, Square::X),
+            row2: Row(Square::Empty, Square::X, Square::O),
+            row3: Row(Square::O, Square::Empty, Square::Empty),
+        };
+
+        assert_eq!(
+            board.get_square(&"A1".parse::<Position>().unwrap()),
+            &Square::Empty
+        );
+
+        assert_eq!(
+            board.get_square(&"B3".parse::<Position>().unwrap()),
+            &Square::O
+        );
+
+        assert_eq!(
+            board.get_square(&"B2".parse::<Position>().unwrap()),
+            &Square::X
+        );
+
+        assert_eq!(
+            board.get_square(&"C3".parse::<Position>().unwrap()),
+            &Square::Empty
         );
     }
 }
