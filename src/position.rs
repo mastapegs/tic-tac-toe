@@ -49,11 +49,7 @@ impl str::FromStr for Position {
     type Err = Error;
     fn from_str(s: &str) -> Result<Self> {
         if s.len() == 2 {
-            let characters = s.split("").collect::<Vec<&str>>();
-            let row = characters[1].parse::<Row>();
-            let column = characters[2].parse::<Column>();
-
-            match (row, column) {
+            match (s[0..1].parse::<Row>(), s[1..2].parse::<Column>()) {
                 (Ok(row), Ok(column)) => Ok(Position(row, column)),
                 _ => Err(Error::CombinedPositionError(s.to_owned())),
             }
