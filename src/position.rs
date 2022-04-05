@@ -42,7 +42,7 @@ impl str::FromStr for Column {
 /// A1 | A2 | A3
 /// B1 | B2 | B3
 /// C1 | C2 | C3
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Position(pub Row, pub Column);
 
 impl str::FromStr for Position {
@@ -110,5 +110,37 @@ mod tests {
         assert_column_error("z");
         assert_column_error("A");
         assert_column_error("5");
+    }
+
+    #[test]
+    fn parse_position() {
+        assert_eq!("A1".parse(), Ok(Position(Row::A, Column::One)));
+        assert_eq!("B3".parse(), Ok(Position(Row::B, Column::Three)));
+        assert_eq!("C2".parse(), Ok(Position(Row::C, Column::Two)));
+    }
+
+    #[test]
+    fn parse_position_error() {
+        fn assert_position_combination_error(char: &str) {
+            assert_eq!(
+                char.parse::<Position>(),
+                Err(Error::CombinedPositionError(char.to_owned()))
+            );
+        }
+
+        fn assert_position_length_error(char: &str) {
+            assert_eq!(
+                char.parse::<Position>(),
+                Err(Error::InvalidPositionStringLength(char.to_owned()))
+            );
+        }
+
+        assert_position_combination_error("D1");
+        assert_position_combination_error("A4");
+        assert_position_combination_error("B9");
+
+        assert_position_length_error("ABC");
+        assert_position_length_error("123");
+        assert_position_length_error("Helicopter");
     }
 }
