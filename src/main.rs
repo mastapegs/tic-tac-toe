@@ -10,6 +10,9 @@ fn main() -> Result<()> {
     board.set_square(&"C3".parse()?, Square::X);
     board.set_square(&"C1".parse()?, Square::O);
 
+    // Throw an Error!!! 😱 😱 😱
+    board.set_square(&"ABC".parse()?, Square::O);
+
     println!("{board}");
 
     Ok(())

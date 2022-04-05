@@ -8,7 +8,7 @@ pub enum Square {
 }
 
 impl fmt::Display for Square {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), std::fmt::Error> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> Result<(), fmt::Error> {
         match self {
             Square::Empty => write!(f, "_"),
             Square::X => write!(f, "X"),

@@ -1,5 +1,5 @@
 use crate::{position, Position, Square};
-use std::fmt;
+use std::{fmt, result};
 
 #[derive(Debug, PartialEq, Default, Copy, Clone)]
 pub struct Row(pub Square, pub Square, pub Square);
@@ -18,7 +18,7 @@ pub struct Board {
 }
 
 impl fmt::Display for Board {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> result::Result<(), fmt::Error> {
         write!(f, "{}\n{}\n{}", self.row1, self.row2, self.row3)
     }
 }
