@@ -1,7 +1,6 @@
 use std::fmt;
 
-#[allow(dead_code)]
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone, Copy)]
 pub enum Square {
     Empty,
     X,

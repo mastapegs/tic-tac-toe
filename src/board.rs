@@ -1,7 +1,7 @@
 use crate::{position, Position, Square};
 use std::fmt;
 
-#[derive(Debug, PartialEq, Default)]
+#[derive(Debug, PartialEq, Default, Copy, Clone)]
 pub struct Row(pub Square, pub Square, pub Square);
 
 impl fmt::Display for Row {
@@ -24,6 +24,7 @@ impl fmt::Display for Board {
 }
 
 impl Board {
+    #[allow(dead_code)]
     fn get_square(&self, position: &Position) -> &Square {
         match position {
             Position(position::Row::A, position::Column::One) => &self.row1.0,
@@ -37,6 +38,77 @@ impl Board {
             Position(position::Row::C, position::Column::One) => &self.row3.0,
             Position(position::Row::C, position::Column::Two) => &self.row3.1,
             Position(position::Row::C, position::Column::Three) => &self.row3.2,
+        }
+    }
+
+    #[allow(dead_code)]
+    fn set_square(&mut self, position: &Position, square: Square) {
+        *self = match position {
+            Position(position::Row::A, position::Column::One) => Self {
+                row1: Row {
+                    0: square,
+                    ..self.row1
+                },
+                ..*self
+            },
+            Position(position::Row::A, position::Column::Two) => Self {
+                row1: Row {
+                    1: square,
+                    ..self.row1
+                },
+                ..*self
+            },
+            Position(position::Row::A, position::Column::Three) => Self {
+                row1: Row {
+                    2: square,
+                    ..self.row1
+                },
+                ..*self
+            },
+
+            Position(position::Row::B, position::Column::One) => Self {
+                row2: Row {
+                    0: square,
+                    ..self.row2
+                },
+                ..*self
+            },
+            Position(position::Row::B, position::Column::Two) => Self {
+                row2: Row {
+                    1: square,
+                    ..self.row2
+                },
+                ..*self
+            },
+            Position(position::Row::B, position::Column::Three) => Self {
+                row2: Row {
+                    2: square,
+                    ..self.row2
+                },
+                ..*self
+            },
+
+            Position(position::Row::C, position::Column::One) => Self {
+                row3: Row {
+                    0: square,
+                    ..self.row3
+                },
+                ..*self
+            },
+            Position(position::Row::C, position::Column::Two) => Self {
+                row3: Row {
+                    1: square,
+                    ..self.row3
+                },
+                ..*self
+            },
+            Position(position::Row::C, position::Column::Three) => Self {
+                row3: Row {
+                    2: square,
+                    ..self.row3
+                },
+                ..*self
+            },
         }
     }
 }
@@ -127,6 +199,41 @@ mod tests {
         assert_eq!(
             board.get_square(&"C3".parse::<Position>().unwrap()),
             &Square::Empty
+        );
+    }
+
+    #[test]
+    fn test_set_square() {
+        let mut test_board = Board::default();
+
+        test_board.set_square(&"B2".parse::<Position>().unwrap(), Square::X);
+        assert_eq!(
+            test_board,
+            Board {
+                row1: Row::default(),
+                row2: Row(Square::Empty, Square::X, Square::Empty),
+                row3: Row::default(),
+            }
+        );
+
+        test_board.set_square(&"C1".parse::<Position>().unwrap(), Square::O);
+        assert_eq!(
+            test_board,
+            Board {
+                row1: Row::default(),
+                row2: Row(Square::Empty, Square::X, Square::Empty),
+                row3: Row(Square::O, Square::Empty, Square::Empty),
+            }
+        );
+
+        test_board.set_square(&"A3".parse::<Position>().unwrap(), Square::X);
+        assert_eq!(
+            test_board,
+            Board {
+                row1: Row(Square::Empty, Square::Empty, Square::X),
+                row2: Row(Square::Empty, Square::X, Square::Empty),
+                row3: Row(Square::O, Square::Empty, Square::Empty),
+            }
         );
     }
 }
