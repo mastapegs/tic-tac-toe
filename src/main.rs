@@ -1,6 +1,6 @@
 #![deny(clippy::all)]
 #![warn(clippy::pedantic)]
-use tic_tac_toe::{Board, Row, Square};
+use tic_tac_toe::{Board, Position, Row, Square};
 
 fn main() {
     println!(
@@ -11,4 +11,11 @@ fn main() {
             row3: Row(Square::O, Square::Empty, Square::Empty),
         }
     );
+
+    println!("Test Printing Board Positions");
+
+    match "A1".parse::<Position>() {
+        Ok(position) => println!("{:?}", position),
+        Err(error) => println!("{:#?}", error),
+    }
 }
