@@ -41,8 +41,7 @@ impl Board {
         }
     }
 
-    #[allow(dead_code)]
-    fn set_square(&mut self, position: &Position, square: Square) {
+    pub fn set_square(&mut self, position: &Position, square: Square) {
         *self = match position {
             Position(position::Row::A, position::Column::One) => Self {
                 row1: Row {

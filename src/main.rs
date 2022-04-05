@@ -1,21 +1,16 @@
 #![deny(clippy::all)]
 #![warn(clippy::pedantic)]
-use tic_tac_toe::{Board, Position, Row, Square};
+use tic_tac_toe::{Board, Result, Square};
 
-fn main() {
-    println!(
-        "{}",
-        Board {
-            row1: Row(Square::Empty, Square::Empty, Square::X),
-            row2: Row(Square::Empty, Square::X, Square::O),
-            row3: Row(Square::O, Square::Empty, Square::Empty),
-        }
-    );
+fn main() -> Result<()> {
+    let mut board = Board::default();
 
-    println!("Test Printing Board Positions");
+    board.set_square(&"B2".parse()?, Square::X);
+    board.set_square(&"A1".parse()?, Square::O);
+    board.set_square(&"C3".parse()?, Square::X);
+    board.set_square(&"C1".parse()?, Square::O);
 
-    match "A1".parse::<Position>() {
-        Ok(position) => println!("{:?}", position),
-        Err(error) => println!("{:#?}", error),
-    }
+    println!("{board}");
+
+    Ok(())
 }
